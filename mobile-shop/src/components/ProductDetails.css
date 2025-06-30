@@ -1,0 +1,16 @@
+.product-details {
+  background-color: #f8f9fa;
+  padding: 30px;
+  border-radius: 10px;
+}
+
+.product-image {
+  
+  object-fit: contain;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+.product-container{
+    padding-top: 150px;
+    padding-bottom: 150px;
+}
