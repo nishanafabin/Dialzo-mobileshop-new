@@ -8,6 +8,19 @@ const ProductDetails = () => {
   const [product, setProduct] = useState(null)
   const [quantity, setQuantity] = useState(1)
 
+  const toAbsolute = (url) => {
+    if (!url) return ''
+    if (/^https?:\/\//i.test(url)) return url
+    const base = (API.defaults.baseURL || '').replace(/\/api$/,'')
+    return `${base}${url.startsWith('/') ? '' : '/'}${url}`
+  }
+
+  const getImageSrc = (p) => {
+    const candidate = p?.image || p?.imageUrl || p?.imageURL || p?.img || (Array.isArray(p?.images) && p?.images.length ? p?.images[0] : '')
+    const abs = toAbsolute(candidate)
+    return abs || 'https://via.placeholder.com/400x300?text=No+Image'
+  }
+
   useEffect(() => {
     API.get(`/products/${id}`)
       .then(res => setProduct(res.data))
@@ -27,7 +40,7 @@ const ProductDetails = () => {
       const cartItem = {
         productId: product._id,
         name: product.name,
-        image: product.image,
+        image: getImageSrc(product),
         price: product.price,
         quantity: quantity
       };
@@ -46,7 +59,7 @@ const ProductDetails = () => {
     <div className="product-container container product-details">
       <div className="row align-items-start">
         <div className="col-md-5 text-center">
-          <img src={product.image} alt={product.name} className="img-fluid product-image" />
+          <img src={getImageSrc(product)} alt={product.name} className="img-fluid product-image" referrerPolicy="no-referrer" crossOrigin="anonymous" loading="lazy" onError={(e) => { e.currentTarget.src = 'https://via.placeholder.com/400x300?text=No+Image' }} />
         </div>
 
         <div className="col-md-7">

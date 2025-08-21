@@ -1,7 +1,7 @@
 import './Home.css'
 import { useEffect, useState, useContext } from 'react'
 import { Link } from 'react-router-dom'
-import axios from 'axios'
+import API from '../utils/api'
 import { SearchContext } from '../context/SearchContext'
 
 const Home = () => {
@@ -9,7 +9,7 @@ const Home = () => {
   const { searchTerm } = useContext(SearchContext)
 
   useEffect(() => {
-    axios.get('http://localhost:5000/api/products')
+    API.get('/products')
       .then(res => setProducts(res.data))
       .catch(err => console.error('Error loading products:', err))
   }, [])
@@ -23,6 +23,19 @@ const Home = () => {
 
 
   const isSearching = searchTerm.trim() !== ''
+
+  const toAbsolute = (url) => {
+    if (!url) return ''
+    if (/^https?:\/\//i.test(url)) return url
+    const base = (API.defaults.baseURL || '').replace(/\/api$/,'')
+    return `${base}${url.startsWith('/') ? '' : '/'}${url}`
+  }
+
+  const getImageSrc = (p) => {
+    const candidate = p.image || p.imageUrl || p.imageURL || p.img || (Array.isArray(p.images) && p.images.length ? p.images[0] : '')
+    const abs = toAbsolute(candidate)
+    return abs || 'https://via.placeholder.com/400x300?text=No+Image'
+  }
 
   return (
     <div className="home-container">
@@ -58,7 +71,7 @@ const Home = () => {
             {filteredProducts.slice(0, 18).map(product => (
               <div key={product._id} className="col-md-4 mb-4">
                 <div className="card h-100">
-                  <img src={product.image} className="card-img-top" alt={product.name} />
+                  <img src={getImageSrc(product)} className="card-img-top" alt={product.name} referrerPolicy="no-referrer" crossOrigin="anonymous" loading="lazy" onError={(e) => { e.currentTarget.src = 'https://via.placeholder.com/400x300?text=No+Image' }} />
                   <div className="card-body">
                     <h5 className="card-title">{product.name}</h5>
                     <p className="card-text">₹{product.price}</p>

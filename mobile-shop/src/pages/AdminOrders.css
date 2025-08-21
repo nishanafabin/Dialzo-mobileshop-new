@@ -1,0 +1,54 @@
+/* AdminOrders.css */
+
+.card.order-card {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  margin-bottom: 1.5rem;
+  transition: box-shadow 0.2s;
+}
+.card.order-card:hover {
+  box-shadow: 0 4px 16px rgba(0,0,0,0.10);
+}
+.order-card .card-body {
+  padding: 1.25rem 1.5rem;
+}
+.order-card .card-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #2d2d2d;
+}
+.order-card ul {
+  margin: 0.5rem 0 1rem 0;
+  padding-left: 1.2rem;
+}
+.order-card li {
+  font-size: 1rem;
+  color: #444;
+}
+.order-card .form-select {
+  min-width: 120px;
+  font-size: 1rem;
+}
+.order-card strong {
+  color: #007bff;
+  margin-right: 0.5rem;
+}
+.order-card .order-status {
+  font-weight: 500;
+  margin-left: 0.5rem;
+}
+.order-card .order-user {
+  color: #888;
+  font-size: 0.97rem;
+}
+.order-card .order-date {
+  color: #aaa;
+  font-size: 0.95rem;
+}
+.empty-orders-page {
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+} 

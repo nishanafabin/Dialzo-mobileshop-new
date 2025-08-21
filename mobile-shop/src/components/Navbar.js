@@ -65,9 +65,14 @@ const Navbar = () => {
         </li>
         <li><Link to="/admin" onClick={() => setIsOpen(false)}>Admin Panel</Link></li>
         {isLoggedIn && (
-          <li>
-            <button onClick={handleLogout} className="btn btn-link nav-logout-btn">Logout</button>
-          </li>
+          <>
+            <li>
+              <Link to="/my-orders" onClick={() => setIsOpen(false)}>My Orders</Link>
+            </li>
+            <li>
+              <button onClick={handleLogout} className="btn btn-link nav-logout-btn">Logout</button>
+            </li>
+          </>
         )}
       </ul>
     </nav>

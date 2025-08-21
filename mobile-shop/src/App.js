@@ -12,6 +12,8 @@ import AdminProductDetails from './pages/AdminProductDetails'
 import Login from './components/Login'
 import Register from './components/Register'
 import ProtectedRoute from './components/ProtectedRoute'
+import MyOrders from './components/MyOrders'
+import OrderDetails from './components/OrderDetails'
 
 function App() {
   return (
@@ -69,6 +71,22 @@ function App() {
             element={
               <ProtectedRoute>
                 <AdminProductDetails />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/my-orders"
+            element={
+              <ProtectedRoute>
+                <MyOrders />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/my-orders/:orderId"
+            element={
+              <ProtectedRoute>
+                <OrderDetails />
               </ProtectedRoute>
             }
           />

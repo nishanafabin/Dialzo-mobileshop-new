@@ -14,6 +14,19 @@ const Products = () => {
   const queryParams = new URLSearchParams(location.search);
   const selectedCategory = queryParams.get('category');
 
+  const toAbsolute = (url) => {
+    if (!url) return ''
+    if (/^https?:\/\//i.test(url)) return url
+    const base = (API.defaults.baseURL || '').replace(/\/api$/,'')
+    return `${base}${url.startsWith('/') ? '' : '/'}${url}`
+  }
+
+  const getImageSrc = (p) => {
+    const candidate = p.image || p.imageUrl || p.imageURL || p.img || (Array.isArray(p.images) && p.images.length ? p.images[0] : '')
+    const abs = toAbsolute(candidate)
+    return abs || 'https://via.placeholder.com/400x300?text=No+Image'
+  };
+
   useEffect(() => {
     API.get('/products')
       .then((res) => {
@@ -42,7 +55,7 @@ const Products = () => {
       const cartItem = {
         productId: product._id,
         name: product.name,
-        image: product.image,
+        image: getImageSrc(product),
         price: product.price,
         quantity: quantities[product._id]
       };
@@ -82,9 +95,13 @@ const Products = () => {
             <div key={product._id} className="product-card">
               <Link to={`/product/${product._id}`}>
                 <img
-                  src={product.image}
+                  src={getImageSrc(product)}
                   alt={product.name}
                   className="product-image"
+                  referrerPolicy="no-referrer"
+                  crossOrigin="anonymous"
+                  loading="lazy"
+                  onError={(e) => { e.currentTarget.src = 'https://via.placeholder.com/400x300?text=No+Image' }}
                 />
               </Link>
               <div className="product-info">

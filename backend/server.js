@@ -4,6 +4,8 @@ const dotenv = require('dotenv')
 const cors = require('cors')
 const productRoutes = require('./routes/productRoutes')
 const authRoutes = require('./routes/authRoutes') // ✅ Moved to the top
+const cartRoutes = require('./routes/cartRoutes')
+const orderRoutes = require('./routes/orderRoutes');
 
 dotenv.config()
 
@@ -21,8 +23,8 @@ mongoose.connect(process.env.MONGO_URI)
 app.get('/', (req, res) => {
   res.send('API running...')
 })
-const cartRoutes = require('./routes/cartRoutes')
 app.use('/api/cart', cartRoutes)
+app.use('/api/orders', orderRoutes);
 
 app.use('/api/products', productRoutes)
 app.use('/api/auth', authRoutes) // ✅ Make sure this line comes before app.listen
