@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import API from '../utils/api';
 import './Cart.css';
 
@@ -6,6 +7,7 @@ const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   // Fetch cart items
   const fetchCart = async () => {
@@ -69,19 +71,45 @@ const Cart = () => {
     }
   };
 
-  // Place order (clear cart)
+  // Place order: create order then clear cart
   const placeOrder = async () => {
-    if (!window.confirm('Are you sure you want to place this order? This will clear your cart.')) {
+    if (!window.confirm('Are you sure you want to place this order?')) {
       return;
     }
-    
+
+    const token = localStorage.getItem('token');
+    if (!token) {
+      alert('Please log in to place an order.');
+      navigate('/login');
+      return;
+    }
+
     try {
+      // Create order with current cart items
+      const items = cartItems.map(item => ({
+        productId: item.productId,
+        name: item.name,
+        image: item.image,
+        price: item.price,
+        quantity: item.quantity,
+      }));
+
+      if (items.length === 0) {
+        alert('Your cart is empty.');
+        return;
+      }
+
+      await API.post('/orders', { items });
+
+      // Clear cart after successful order
       await API.delete('/cart');
       setCartItems([]);
+
       alert('Order placed successfully!');
+      navigate('/my-orders');
     } catch (err) {
       console.error('Error placing order:', err);
-      alert('Failed to place order. Please try again.');
+      alert(err.response?.data?.message || 'Failed to place order. Please try again.');
     }
   };
 

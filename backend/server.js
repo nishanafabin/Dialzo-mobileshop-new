@@ -11,7 +11,12 @@ dotenv.config()
 
 const app = express()
 
-app.use(cors())
+// CORS: allow frontend origin
+const allowedOrigin = process.env.FRONTEND_URL || 'http://localhost:3000'
+app.use(cors({
+  origin: allowedOrigin,
+  credentials: true,
+}))
 app.use(express.json())
 
 // MongoDB connection
