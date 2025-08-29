@@ -1,10 +1,27 @@
-{
-  "framework": "create-react-app",
-  "buildCommand": "npm run build",
-  "outputDirectory": "build",
-  "rewrites": [
-    { "source": "/(.*)", "destination": "/index.html" }
-  ]
-}
-
-
+    {
+      "version": 2,
+      "builds": [
+        {
+          "src": "api/*.js", // Adjust this based on your API entry point
+          "use": "@vercel/node"
+        }
+      ],
+      "routes": [
+        {
+          "src": "/api/(.*)", // Matches all paths under /api
+          "methods": [
+            "GET",
+            "POST",
+            "PUT",
+            "DELETE",
+            "PATCH",
+            "OPTIONS"
+          ],
+          "headers": {
+            "Access-Control-Allow-Origin": "*", // Allows requests from any origin
+            "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
+            "Access-Control-Allow-Headers": "Content-Type, Authorization" // Add any other headers your application uses
+          }
+        }
+      ]
+    }
