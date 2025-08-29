@@ -19,7 +19,7 @@ const AddProduct = ({ onProductAdded }) => {
     'Accessories',
     'Airpods'
   ]
-
+const url = process.env.REACT_APP_ENDPOINT_URL;
   const handleChange = e => {
     const { name, value } = e.target
     setProduct(prev => ({ ...prev, [name]: value }))
@@ -28,7 +28,7 @@ const AddProduct = ({ onProductAdded }) => {
   const handleSubmit = async e => {
     e.preventDefault()
     try {
-      await axios.post('http://localhost:5000/api/products', product)
+      await axios.post(`${url}/api/products`, product)
       alert('✅ Product added successfully!')
       setProduct({ name: '', price: '', image: '', category: '', description: '' })
       onProductAdded()

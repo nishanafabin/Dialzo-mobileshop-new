@@ -2,8 +2,8 @@ const express = require('express')
 const cors = require('cors')
 
 const app = express()
-
-app.use(cors({ origin: 'http://localhost:3000', credentials: true }))
+const url = process.env.REACT_APP_ENDPOINT_URL;
+app.use(cors({ origin: `${url}`, credentials: true }))
 app.use(express.json())
 
 // In-memory demo data

@@ -18,9 +18,9 @@ const AdminProductDetails = () => {
     'Accessories',
     'Airpods'
   ]
-
+  const url = process.env.REACT_APP_ENDPOINT_URL;
   useEffect(() => {
-    axios.get(`http://localhost:5000/api/products/${id}`)
+    axios.get(`${url}/api/products/${id}`)
       .then(res => setProduct(res.data))
       .catch(err => console.error('Error fetching product:', err))
   }, [id])
@@ -32,7 +32,7 @@ const AdminProductDetails = () => {
 
   const handleUpdate = async () => {
     try {
-      await axios.put(`http://localhost:5000/api/products/${id}`, product)
+      await axios.put(`${url}/api/products/${id}`, product)
       alert('✅ Product updated')
       setIsEditing(false)
     } catch (err) {
@@ -46,7 +46,7 @@ const AdminProductDetails = () => {
     if (!confirm) return
 
     try {
-      await axios.delete(`http://localhost:5000/api/products/${id}`)
+      await axios.delete(`${url}/api/products/${id}`)
       alert('🗑️ Product deleted')
       navigate('/admin')
     } catch (err) {

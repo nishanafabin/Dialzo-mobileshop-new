@@ -20,10 +20,10 @@ const AdminPanel = () => {
     'Accessories',
     'Airpods'
   ]
-
+  const url = process.env.REACT_APP_ENDPOINT_URL;
   const fetchProducts = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/products')
+      const res = await axios.get(`${url}/api/products`)
       setProducts(res.data)
     } catch (err) {
       console.error('Failed to fetch products:', err)
